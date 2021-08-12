@@ -4,7 +4,7 @@ import axios from 'axios'
 
 // 👉 TASK 2 - import the constants from constants/index.js
 import { BASE_URL, API_KEY } from "../constants";
-
+import Friend from './Friend';
 // for many React components, put in same props, you get out the same HTML
 // they are pure components
 // we can use the useEffect to do side effects inside our function/component
@@ -33,10 +33,13 @@ export default function App() {
 
   // callback function, and dependencies array
   useEffect(() => {
-  axios
-  .get(`${BASE_URL}/friends?api_key=${API_KEY}`)
+  axios.get(`${BASE_URL}/friends?api_key=${API_KEY}`)
   .then(res => {
     setFriends(res.data)
+  })
+  .catch(err => {
+    console.error(err);
+    setError('Sorry')
   })
   }, [])
 
@@ -58,7 +61,10 @@ export default function App() {
         // this would crash due to invoking `map` method on non-array.
         // We'd need a guard against this.
         friends.map(fr => {
-          return <Friend key={fr.id} info={fr} />
+        return <Friend key={fr.id} 
+        info={fr}
+        openDetails={openDetails}
+        closedDetails={closedDetails}/>
         })
       }
       {

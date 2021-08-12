@@ -10,25 +10,37 @@ export default function Details(props) {
   // callback, 
   useEffect(() => {
     console.log('I run AFTER first render, just ONCE: 🥇')
-  }, [])
+    return () => console.log('🥇 cleanup');
+  }, []);
 
   // 👉 TASK 5 - Create a side effect 👻 that runs only after first render
   // and puts a 'click' event handler on document.
   // See what happens if we don't clean up.
-  useEffect(() => {
-    const hiFunction = () => console.log('hi')
-    // document.addEventListener('click', hiFunction)
 
+  useEffect(() => { 
+    // console.log('dfg');
+    const hiFunction = () => {
+      console.log('hi')
+    }
+    document.addEventListener('click', hiFunction);
+// const sillyEventlistener = () => {
+// console.log('ah');
+  }
+    // document.addEventListener('click', hiFunction);
     // run this when the component unmounts
-    return () => document.removeEventListener('click', hiFunction)
+    return () => {
+      document.removeEventListener('click', hiFunction);
+    }
   }, [])
 
   // 👉 TASK 6 - Create a side effect 🥵 that runs after every render.
   useEffect(() => {
+    console.log('I am the FIRST RENDER!!');
+
     console.log('running after EVERY render 🥵 ');
   })
 
-  console.log('I am the FIRST RENDER!!')
+  
 
   // 👉 TASK 7 - Create a side effect 📲 that runs when a particular variable changes:
   // Whenever props.friendId updates we should trigger a fetch for details of the friend.
@@ -45,8 +57,8 @@ export default function Details(props) {
     .then(res => {
       setDetails(res.data)
     })
-
-  }, [friendId]) // put a variable here so we run again when it changes
+    return () => console.log('gfhj')
+  }, [friendId]); // put a variable here so we run again when it changes
 
 
   return (
